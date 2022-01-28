@@ -1,8 +1,8 @@
 package com.shashank.dagger2cwm.di
 
-import com.shashank.dagger2cwm.AuthActivity
+import com.shashank.dagger2cwm.di.auth.AuthViewModelsModule
+import com.shashank.dagger2cwm.ui.auth.AuthActivity
 import dagger.Module
-import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 
 
@@ -13,6 +13,8 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class ActivityBuildersModule {
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(
+        modules = [AuthViewModelsModule::class] // Only AuthActivity will be able to use AuthViewModelsModule
+    )
     abstract fun contributeAuthActivity(): AuthActivity
 }
