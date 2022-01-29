@@ -11,13 +11,13 @@ data class User(
 
     @SerializedName("username")
     @Expose
-    val username: String,
+    val username: String?=null,
 
     @SerializedName("email")
     @Expose
-    val email: String,
+    val email: String?=null,
 
     @SerializedName("website")
     @Expose
-    val website: String
+    val website: String?=null
 )
