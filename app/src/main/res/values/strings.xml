@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Dagger 2 CWM</string>
+    <string name="logout">logout</string>
 </resources>
