@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
+import com.shashank.dagger2cwm.SessionManager
 import com.shashank.dagger2cwm.network.auth.AuthApi
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
@@ -17,22 +18,19 @@ import java.lang.Exception
 
 
 class AuthViewModel @Inject constructor(
-    private val authApi: AuthApi
+    private val authApi: AuthApi,
+    private val sessionManager: SessionManager
 ): ViewModel() {
 
     private val TAG = "AuthViewModel"
 
-    private val authUser: MediatorLiveData<AuthResource<User>> = MediatorLiveData()
-
-    init {
-        Log.d(TAG,"xlr8: Auth ViewModel is working")
+    fun authenticateWithId(userId: Int) {
+        Log.d(TAG,"authenticateWithId: Attempting to login...")
+        sessionManager.authenticateWithId(queryUserId(userId))
     }
 
-    fun authenticateWithId(userId: Int) {
-
-        authUser.value = AuthResource.loading(null)
-
-        val source = LiveDataReactiveStreams.fromPublisher(
+    private fun queryUserId(userId: Int): LiveData<AuthResource<User>> {
+        return LiveDataReactiveStreams.fromPublisher(
 
             authApi.getUser(userId) // get flowable user
 
@@ -50,12 +48,8 @@ class AuthViewModel @Inject constructor(
                 })
                 .subscribeOn(Schedulers.io())
         )
-
-        authUser.addSource(source) { user ->
-            authUser.value = user
-            authUser.removeSource(source)
-        }
     }
 
-    fun observeUser(): LiveData<AuthResource<User>> = authUser
+
+    fun observeAuthState(): LiveData<AuthResource<User>> = sessionManager.getAuthUser()
 }

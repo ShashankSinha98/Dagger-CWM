@@ -47,7 +47,7 @@ class AuthActivity : DaggerAppCompatActivity(), View.OnClickListener {
     }
 
     private fun subscribeObservers() {
-        authViewModel.observeUser().observe(this){ authResource ->
+        authViewModel.observeAuthState().observe(this){ authResource ->
             authResource?.let {
 
                 when(it.status) {
