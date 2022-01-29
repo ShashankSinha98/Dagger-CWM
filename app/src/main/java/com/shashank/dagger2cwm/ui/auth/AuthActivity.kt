@@ -1,5 +1,6 @@
 package com.shashank.dagger2cwm.ui.auth
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.TextUtils
@@ -13,6 +14,7 @@ import com.shashank.dagger2cwm.viewmodels.ViewModelProviderFactory
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 import com.shashank.dagger2cwm.ui.auth.AuthResource.AuthStatus.*
+import com.shashank.dagger2cwm.ui.main.MainActivity
 
 class AuthActivity : DaggerAppCompatActivity(), View.OnClickListener {
 
@@ -59,6 +61,7 @@ class AuthActivity : DaggerAppCompatActivity(), View.OnClickListener {
                     AUTHENTICATED -> {
                         showProgressBar(false)
                         Log.d(TAG,"onChanged: Login Success: ${it.data?.email}")
+                        onLoginSuccess()
                     }
 
                     ERROR -> {
@@ -74,6 +77,11 @@ class AuthActivity : DaggerAppCompatActivity(), View.OnClickListener {
             }
 
         }
+    }
+
+    private fun onLoginSuccess() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 
     private fun showProgressBar(isVisible: Boolean) {
