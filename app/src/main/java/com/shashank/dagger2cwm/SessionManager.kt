@@ -12,6 +12,7 @@ import javax.inject.Singleton
 class SessionManager @Inject constructor() {
     private val TAG = "SessionManager"
 
+    // single source of truth (data)
     private val cachedUser: MediatorLiveData<AuthResource<User>> = MediatorLiveData()
 
     fun authenticateWithId(source: LiveData<AuthResource<User>>) {

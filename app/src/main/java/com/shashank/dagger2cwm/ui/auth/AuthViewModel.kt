@@ -29,7 +29,7 @@ class AuthViewModel @Inject constructor(
         sessionManager.authenticateWithId(queryUserId(userId))
     }
 
-    private fun queryUserId(userId: Int): LiveData<AuthResource<User>> {
+    private fun queryUserId(userId: Int): LiveData<AuthResource<User>> { // Rx Java Used
         return LiveDataReactiveStreams.fromPublisher(
 
             authApi.getUser(userId) // get flowable user

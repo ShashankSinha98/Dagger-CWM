@@ -31,7 +31,7 @@ class PostsViewModel @Inject constructor(
 
         Log.d(TAG,"observePosts: userId: ${sessionManager.getAuthUser().value?.data?.id}")
 
-        val source: LiveData<Resource<List<Post>>> = LiveDataReactiveStreams.fromPublisher(
+        val source: LiveData<Resource<List<Post>>> = LiveDataReactiveStreams.fromPublisher( // RxJava
             mainApi.getPostsFromUser(sessionManager.getAuthUser().value?.data?.id)
 
                 .onErrorReturn {
