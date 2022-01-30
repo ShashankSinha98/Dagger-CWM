@@ -1,6 +1,7 @@
 package com.shashank.dagger2cwm.ui.main.posts
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +32,16 @@ class PostsFragment: DaggerFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recyclerView = view.findViewById(R.id.recycler_view)
-
         viewModel = ViewModelProvider(this, providerFactory)[PostsViewModel::class.java]
+
+        subscribeObservers()
+    }
+
+
+    private fun subscribeObservers() {
+        viewModel.observePosts().removeObservers(viewLifecycleOwner)
+        viewModel.observePosts().observe(viewLifecycleOwner, {
+            Log.d(TAG,"onChanged: ${it.data}")
+        })
     }
 }

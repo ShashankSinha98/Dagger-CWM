@@ -7,17 +7,17 @@ data class Post(
 
     @SerializedName("userId")
     @Expose
-    val userId: Int,
+    val userId: Int?=null,
 
     @SerializedName("id")
     @Expose
-    val id: Int,
+    val id: Int?=null,
 
     @SerializedName("title")
     @Expose
-    val title: String,
+    val title: String?=null,
 
     @SerializedName("body")
     @Expose
-    val body: String,
+    val body: String?=null,
 )
