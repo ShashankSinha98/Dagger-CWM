@@ -57,7 +57,7 @@ class PostsFragment: DaggerFragment() {
                 }
 
                 Resource.Status.SUCCESS -> {
-                    Log.d(TAG,"onChanged: got posts...")
+                    Log.d(TAG,"xlr8 onChanged: got posts...")
                     postRecyclerAdapter.setPosts(listResource.data)
                 }
 

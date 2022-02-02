@@ -30,6 +30,7 @@ class PostRecyclerAdapter: RecyclerView.Adapter<PostRecyclerAdapter.PostViewHold
                 clear()
                 addAll(posts)
             }
+            notifyDataSetChanged()
         }
     }
 
