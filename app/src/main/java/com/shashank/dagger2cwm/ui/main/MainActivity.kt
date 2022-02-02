@@ -7,6 +7,8 @@ import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import com.google.android.material.navigation.NavigationView
 import com.shashank.dagger2cwm.BaseActivity
 import com.shashank.dagger2cwm.R
@@ -25,15 +27,17 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.nav_view)
 
-
-        testFragment()
+        initNavigation()
     }
 
-    private fun testFragment() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, PostsFragment())
-            .commit()
+    private fun initNavigation() {
+        val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
+        NavigationUI.setupWithNavController(navigationView, navController)
+        navigationView.setNavigationItemSelectedListener(this)
     }
+
+
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -58,11 +62,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         when(item.itemId) {
 
             R.id.nav_profile -> {
-
+                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.profileScreen)
             }
 
             R.id.nav_posts -> {
-
+                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.postsScreen)
             }
         }
 
