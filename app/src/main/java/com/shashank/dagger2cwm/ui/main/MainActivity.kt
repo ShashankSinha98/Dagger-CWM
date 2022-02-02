@@ -7,6 +7,7 @@ import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.navigation.NavigationView
@@ -52,6 +53,15 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 sessionManager.logOut()
                 return true
             }
+
+            android.R.id.home -> {
+                if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    return true
+                } else {
+                    return false // do not consume click
+                }
+            }
         }
 
         return super.onOptionsItemSelected(item)
@@ -62,16 +72,30 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         when(item.itemId) {
 
             R.id.nav_profile -> {
-                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.profileScreen)
+
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(R.id.main, true).build()
+
+                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.profileScreen, null, navOptions)
             }
 
             R.id.nav_posts -> {
-                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.postsScreen)
+
+                if(isValidDestination(R.id.postsScreen))
+                    Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.postsScreen)
             }
         }
 
         item.isChecked = true
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun isValidDestination(destination: Int): Boolean {
+        return destination != Navigation.findNavController(this, R.id.nav_host_fragment).currentDestination?.id
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.nav_host_fragment), drawerLayout)
     }
 }
