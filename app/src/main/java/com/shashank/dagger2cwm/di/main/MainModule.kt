@@ -9,14 +9,15 @@ import retrofit2.Retrofit
 @Module
 class MainModule {
 
+    @MainScope
     @Provides
     fun provideRecyclerAdapter(): PostRecyclerAdapter {
         return PostRecyclerAdapter()
     }
 
+    @MainScope
     @Provides
     fun provideMainApi(retrofit: Retrofit): MainApi {
         return retrofit.create(MainApi::class.java)
     }
-
 }
